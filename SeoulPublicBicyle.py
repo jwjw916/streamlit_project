@@ -17,6 +17,13 @@ st.sidebar.title("서울시 공공자전거 활성화 방안 분석")
 st.sidebar.header("22년도 이용현황 그래프")
 list1 = ['월별이용현황','자치구별이용현황','시간대별이용현황']
 select1 = st.sidebar.selectbox('Pick one',  list1)
+imagefile = {'월별이용현황':'montly.jpg','자치구별이용현황':'district.jpg','시간대별이용현황':'timely.jpg'}
+
+
+def imageopen():
+  image_path = imagefile[select1]
+  image = Image.open(image_path) 
+  st.image(image) 
 
 def montly():
   st.snow()
@@ -33,20 +40,21 @@ def montly():
   st.write("")
 
   # 월별이용현황 그래프 그리기
-  fig = plt.figure()
-  ax = plt.axes()
-  plt.title('서울 공공자전거 월별 이용현황')
-  plt.plot(df_12_daeyeo.index.astype(str),df_12_daeyeo.이용건수,label='이용건수(단위:백만명)',color = 'lightpink')
-  plt.xticks(np.arange(0,13), rotation=45)
-  plt.ylim(1300000,5000000)
-  plt.legend(loc=(0,0))
-  plt.xlabel('대여일자')
-  plt.ylabel('이용건수')
+  # fig = plt.figure()
+  # ax = plt.axes()
+  # plt.title('서울 공공자전거 월별 이용현황')
+  # plt.plot(df_12_daeyeo.index.astype(str),df_12_daeyeo.이용건수,label='이용건수(단위:백만명)',color = 'lightpink')
+  # plt.xticks(np.arange(0,13), rotation=45)
+  # plt.ylim(1300000,5000000)
+  # plt.legend(loc=(0,0))
+  # plt.xlabel('대여일자')
+  # plt.ylabel('이용건수')
 
-  st.pyplot(fig, use_container_width=True)
+  # st.pyplot(fig, use_container_width=True)
 
 if select1 == '월별이용현황':
   montly()
+  imageopen()
 
 elif select1 == '자치구별이용현황':
   #데이터전처리 파일 불러오기
@@ -61,18 +69,20 @@ elif select1 == '자치구별이용현황':
   st.write("")
   st.write("")
 
+  imageopen()
+
   #자치구별 이용현황 그래프 그리기
-  fig = plt.figure(figsize=(40, 30)) # 도화지를 관리하는 변수
-  ax = plt.axes() # 축을 관리하는 변수
+  # fig = plt.figure(figsize=(40, 30)) # 도화지를 관리하는 변수
+  # ax = plt.axes() # 축을 관리하는 변수
 
-  plt.bar(df_last2['소재지(위치)'], df_last2['이용건수'] ,color = 'gray')
-  plt.xlabel('소재지(위치)', fontsize=50)
-  plt.ylabel('이용건수', fontsize=50)
-  plt.ylim(0, 4000000)
-  plt.title('서울시내 구별 공공자전거 이용건수', fontsize=100)
-  plt.xticks(fontsize=30,rotation=45)
+  # plt.bar(df_last2['소재지(위치)'], df_last2['이용건수'] ,color = 'gray')
+  # plt.xlabel('소재지(위치)', fontsize=50)
+  # plt.ylabel('이용건수', fontsize=50)
+  # plt.ylim(0, 4000000)
+  # plt.title('서울시내 구별 공공자전거 이용건수', fontsize=100)
+  # plt.xticks(fontsize=30,rotation=45)
 
-  st.pyplot(fig, use_container_width=True)
+  # st.pyplot(fig, use_container_width=True)
 
 elif select1 == '시간대별이용현황':
   #데이터전처리 파일 불러오기
@@ -83,18 +93,21 @@ elif select1 == '시간대별이용현황':
   st.subheader(f"[{select1}]")
   st.sidebar.width = 200
   st.dataframe(df_time_, width=500)
-  fig = plt.figure(figsize=(40, 30))
-  plt.title('시간대별 공공자전거 이용건수', fontsize=100)
-  plt.bar(df_time_.index, df_time_['이용시간'], color=['lightblue', 'lightgreen'], alpha=0.5,label='22년12월기준')
-  plt.xlabel('대여 시간',fontsize=50)
-  plt.ylabel('이용시간(단위:만)',fontsize=50)
-  plt.xticks(df_time_.index,fontsize=30)
 
-  plt.twinx()
-  plt.scatter(df_time_.index, df_time_['이동거리'], alpha=0.5)
-  plt.ylabel('이동 거리(백만km)')
+  imageopen()
 
-  st.pyplot(fig, use_container_width=True)
+  # fig = plt.figure(figsize=(40, 30))
+  # plt.title('시간대별 공공자전거 이용건수', fontsize=100)
+  # plt.bar(df_time_.index, df_time_['이용시간'], color=['lightblue', 'lightgreen'], alpha=0.5,label='22년12월기준')
+  # plt.xlabel('대여 시간',fontsize=50)
+  # plt.ylabel('이용시간(단위:만)',fontsize=50)
+  # plt.xticks(df_time_.index,fontsize=30)
+
+  # plt.twinx()
+  # plt.scatter(df_time_.index, df_time_['이동거리'], alpha=0.5)
+  # plt.ylabel('이동 거리(백만km)')
+
+  # st.pyplot(fig, use_container_width=True)
 
 
 st.sidebar.header("이용 활성화 방안")
@@ -122,18 +135,23 @@ if select2 == '목표치설정':
 
   st.dataframe(df119, width=500)
 
-  fig = plt.figure()
-  ax = plt.axes()
-  plt.title('정기권 이용현황과 목표치')
-  plt.plot(df119.index,df119.현재정기권추정치, label = '현재 정기권 이용건수(단위:백만명)',color = 'lightpink')
-  plt.plot(df119.index,df119.정기권목표치, label = '정기권 이용 목표치',color = 'lightblue')
-  plt.xticks(np.arange(1,13), rotation=45)
-  plt.ylim(1300000,5000000)
-  plt.legend(loc=(0))
-  plt.xlabel('대여일자(월)')
-  plt.ylabel('이용건수')
+  image_path = 'regular.jpg'
+  image = Image.open(image_path) 
+  st.image(image) 
 
-  st.pyplot(fig, use_container_width=True)
+
+  # fig = plt.figure()
+  # ax = plt.axes()
+  # plt.title('정기권 이용현황과 목표치')
+  # plt.plot(df119.index,df119.현재정기권추정치, label = '현재 정기권 이용건수(단위:백만명)',color = 'lightpink')
+  # plt.plot(df119.index,df119.정기권목표치, label = '정기권 이용 목표치',color = 'lightblue')
+  # plt.xticks(np.arange(1,13), rotation=45)
+  # plt.ylim(1300000,5000000)
+  # plt.legend(loc=(0))
+  # plt.xlabel('대여일자(월)')
+  # plt.ylabel('이용건수')
+
+  # st.pyplot(fig, use_container_width=True)
 
   st.write("현재 일일권 이용현황과 적자 10억을 줄이기 위한 일일권판매목표치 그래프")
 
@@ -143,21 +161,27 @@ if select2 == '목표치설정':
 
   df120 = pd.DataFrame(data1)
   df120.index = pd.RangeIndex(start=1, stop=len(df120)+1)
-  df120
 
-  fig = plt.figure()
-  ax = plt.axes()
+  st.dataframe(df120, width=500)
 
-  plt.title('일일권 이용현황과 목표치')
-  plt.plot(df120.index,df120.현재일일권예상치,label = '현재 일일권 이용건수(단위:십만명)',color = 'lightpink')
-  plt.plot(df120.index,df120.일일권목표치, label = '일일권 이용 목표치',color = 'lightblue')
-  plt.xticks(np.arange(1,13), rotation=45)
-  plt.ylim(130000,600000)
-  plt.legend(loc=(0,0))
-  plt.xlabel('대여일자(월)')
-  plt.ylabel('이용건수')
+  image_path = 'temporary.jpg'
+  image = Image.open(image_path) 
+  st.image(image) 
 
-  st.pyplot(fig, use_container_width=True)
+
+  # fig = plt.figure()
+  # ax = plt.axes()
+
+  # plt.title('일일권 이용현황과 목표치')
+  # plt.plot(df120.index,df120.현재일일권예상치,label = '현재 일일권 이용건수(단위:십만명)',color = 'lightpink')
+  # plt.plot(df120.index,df120.일일권목표치, label = '일일권 이용 목표치',color = 'lightblue')
+  # plt.xticks(np.arange(1,13), rotation=45)
+  # plt.ylim(130000,600000)
+  # plt.legend(loc=(0,0))
+  # plt.xlabel('대여일자(월)')
+  # plt.ylabel('이용건수')
+
+  # st.pyplot(fig, use_container_width=True)
 
 elif select2 == '지도같이보기':
   #데이터전처리 파일 불러오기
